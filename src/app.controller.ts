@@ -1,12 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, OnModuleInit } from '@nestjs/common';
 import { AppService } from './app.service';
+import { MigrationService } from './database/knex-migration.service';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class AppController implements OnModuleInit {
+  constructor(
+    private appService: AppService,
+    private readonly migrationService: MigrationService,
+    ) {}
 
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  public onModuleInit(): void {
+    this.migrationService.runMigrations();
   }
 }

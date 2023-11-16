@@ -6,6 +6,13 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prebuild": "npx tsc",
+    "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"nest start\"",
+    "rebuild": "docker rm --force nodeback && docker rmi nodeback && docker-compose up --build -d",
+    "refresh": "docker compose build nodeback --no-cache && docker compose up -d",
+    "migrate": "docker exec -it nodeback npx knex migrate:latest",
+    "seed": "docker exec -it nodeback /bin/bash -c \"SEED_DIRECTION=auto npx knex seed:run\"",
+    "seed:revert": "docker exec -it nodeback /bin/bash -c \"SEED_DIRECTION=revert npx knex seed:run\"",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -23,8 +30,20 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.1",
+    "knex": "^3.0.1",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -46,6 +65,7 @@
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   },
