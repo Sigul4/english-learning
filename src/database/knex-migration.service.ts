@@ -8,7 +8,6 @@ export class MigrationService {
   private knexInstance: any;
 
   constructor() {
-    console.log('knexConfig',knexConfig)
     this.knexInstance = Knex(knexConfig['development']);
   }
 
